@@ -10,16 +10,6 @@ const app = express();
 app.use(cors({ origin: process.env.CLIENT_URL, credentials: true }));
 app.use(express.json());
 app.use('/uploads', express.static('uploads'));
-const mongoose = require("mongoose");
-require("dotenv").config();
-
-mongoose.connect(process.env.MONGO_URI)
-.then(() => {
-    console.log("MongoDB Atlas Connected");
-})
-.catch((err) => {
-    console.error("Connection Error:", err);
-});
 
 // Routes
 app.use('/api/auth', require('./routes/authRoutes'));

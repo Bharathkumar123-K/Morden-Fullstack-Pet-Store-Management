@@ -6,6 +6,7 @@ import { CartProvider } from './context/CartContext'
 // Layout
 import Navbar from './components/layout/Navbar'
 import Footer from './components/layout/Footer'
+import AdminLayout from './components/layout/AdminLayout'
 
 // Public Pages
 import Home from './pages/public/Home'
@@ -102,15 +103,17 @@ export default function App() {
             <Route path="/staff/orders" element={<ProtectedRoute roles={['staff', 'admin']}><ManageOrders /></ProtectedRoute>} />
             <Route path="/staff/appointments" element={<ProtectedRoute roles={['staff', 'admin']}><ManageAppointments /></ProtectedRoute>} />
 
-            {/* Admin */}
-            <Route path="/admin" element={<ProtectedRoute roles={['admin']}><AdminDashboard /></ProtectedRoute>} />
-            <Route path="/admin/users" element={<ProtectedRoute roles={['admin']}><AdminUsers /></ProtectedRoute>} />
-            <Route path="/admin/pets" element={<ProtectedRoute roles={['admin']}><AdminPets /></ProtectedRoute>} />
-            <Route path="/admin/products" element={<ProtectedRoute roles={['admin']}><AdminProducts /></ProtectedRoute>} />
-            <Route path="/admin/orders" element={<ProtectedRoute roles={['admin']}><AdminOrders /></ProtectedRoute>} />
-            <Route path="/admin/services" element={<ProtectedRoute roles={['admin']}><AdminServices /></ProtectedRoute>} />
-            <Route path="/admin/appointments" element={<ProtectedRoute roles={['admin']}><AdminAppointments /></ProtectedRoute>} />
-            <Route path="/admin/reviews" element={<ProtectedRoute roles={['admin']}><AdminReviews /></ProtectedRoute>} />
+            {/* Admin - isolated admin panel routes using AdminLayout */}
+            <Route path="/admin" element={<ProtectedRoute roles={['admin']}><AdminLayout /></ProtectedRoute>}>
+              <Route index element={<AdminDashboard />} />
+              <Route path="users" element={<AdminUsers />} />
+              <Route path="pets" element={<AdminPets />} />
+              <Route path="products" element={<AdminProducts />} />
+              <Route path="orders" element={<AdminOrders />} />
+              <Route path="services" element={<AdminServices />} />
+              <Route path="appointments" element={<AdminAppointments />} />
+              <Route path="reviews" element={<AdminReviews />} />
+            </Route>
 
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>

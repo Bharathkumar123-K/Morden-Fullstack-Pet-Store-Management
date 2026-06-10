@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const connectDB = async () => {
-  const dbUri = process.env.MONGO_URI || 'mongodb+srv://bharathkumar:eyecontact123@bharath007.l9hvroe.mongodb.net/petstore?retryWrites=true&w=majority';
+  const dbUri = process.env.MONGO_URI || 'mongodb+srv://bharathkumar:eyecontact123@bharath007.l9hvroe.mongodb.net/petstore?appName=bharath007';
   
   try {
     const conn = await mongoose.connect(dbUri, {

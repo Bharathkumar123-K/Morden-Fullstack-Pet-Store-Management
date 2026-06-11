@@ -4,7 +4,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 const run = async () => {
-  const dbUri = process.env.MONGO_URI || 'mongodb+srv://bharathkumar:eyecontact123@bharath007.l9hvroe.mongodb.net/petstore?retryWrites=true&w=majority&appName=bharath007';
+  const dbUri = process.env.MONGO_URI || 'mongodb://bharathkumar:eyecontact123@ac-dhszfot-shard-00-00.l9hvroe.mongodb.net:27017,ac-dhszfot-shard-00-01.l9hvroe.mongodb.net:27017,ac-dhszfot-shard-00-02.l9hvroe.mongodb.net:27017/petstore?ssl=true&authSource=admin&retryWrites=true&w=majority';
   
   // We want to connect to the 'test' database to drop it
   // Find where '/petstore' is or connect directly to the test database

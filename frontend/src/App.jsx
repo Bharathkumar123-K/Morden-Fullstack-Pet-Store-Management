@@ -7,6 +7,7 @@ import { CartProvider } from './context/CartContext'
 import Navbar from './components/layout/Navbar'
 import Footer from './components/layout/Footer'
 import AdminLayout from './components/layout/AdminLayout'
+import ScrollToTop from './components/layout/ScrollToTop'
 
 // Public Pages
 import Home from './pages/public/Home'
@@ -68,6 +69,7 @@ const PublicLayout = ({ children }) => (
 export default function App() {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <AuthProvider>
         <CartProvider>
           <Toaster position="top-right" toastOptions={{ duration: 3000 }} />
@@ -87,7 +89,7 @@ export default function App() {
             <Route path="/register" element={<AuthPage mode="register" />} />
 
             {/* Customer */}
-            <Route path="/dashboard" element={<ProtectedRoute roles={['customer']}><PublicLayout><CustomerDashboard /></PublicLayout></ProtectedRoute>} />
+            <Route path="/dashboard" element={<ProtectedRoute roles={['customer', 'admin', 'staff']}><PublicLayout><CustomerDashboard /></PublicLayout></ProtectedRoute>} />
             <Route path="/cart" element={<ProtectedRoute roles={['customer']}><PublicLayout><Cart /></PublicLayout></ProtectedRoute>} />
             <Route path="/checkout" element={<ProtectedRoute roles={['customer']}><PublicLayout><Checkout /></PublicLayout></ProtectedRoute>} />
             <Route path="/orders" element={<ProtectedRoute roles={['customer']}><PublicLayout><OrderHistory /></PublicLayout></ProtectedRoute>} />

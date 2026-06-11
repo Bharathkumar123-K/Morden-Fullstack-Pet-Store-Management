@@ -82,6 +82,16 @@ export default function AdminUsers() {
     } catch { toast.error('Failed') }
   }
 
+  const handleRoleChange = async (userId, newRole) => {
+    try {
+      await api.put(`/users/${userId}`, { role: newRole })
+      toast.success('User role updated successfully')
+      fetchUsers()
+    } catch (err) {
+      toast.error(err.response?.data?.message || 'Failed to update user role')
+    }
+  }
+
   const handleMakeAdmin = (user) => {
     setAdminPromptUser(user)
     setAdminConfirmEmail('')
@@ -161,7 +171,17 @@ export default function AdminUsers() {
                         </td>
                         <td className="px-4 py-3 text-gray-500">{user.email}</td>
                         <td className="px-4 py-3 text-gray-500">{user.phone || '—'}</td>
-                        <td className="px-4 py-3"><Badge status={user.role} /></td>
+                        <td className="px-4 py-3">
+                          <select
+                            value={user.role}
+                            onChange={(e) => handleRoleChange(user._id, e.target.value)}
+                            className="bg-slate-50 border border-slate-200 rounded-lg text-xs font-semibold px-2 py-1 focus:outline-none focus:ring-1 focus:ring-primary-500 capitalize cursor-pointer hover:bg-slate-100 transition-colors"
+                          >
+                            <option value="customer">Customer</option>
+                            <option value="staff">Staff</option>
+                            <option value="admin">Admin</option>
+                          </select>
+                        </td>
                         <td className="px-4 py-3">
                           <span className={`text-xs font-medium px-2 py-1 rounded-full ${user.isActive ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
                             {user.isActive ? 'Active' : 'Inactive'}

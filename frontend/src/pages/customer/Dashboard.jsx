@@ -34,6 +34,24 @@ export default function CustomerDashboard() {
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-10">
+      {user && (user.role === 'admin' || user.role === 'staff') && (
+        <div className="bg-amber-50 border border-amber-200 rounded-2xl p-5 mb-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-sm animate-fade-in-up">
+          <div className="flex items-center gap-3">
+            <span className="text-2xl">🛠️</span>
+            <div>
+              <p className="font-bold text-amber-900">Administrative Privileges</p>
+              <p className="text-sm text-amber-700 font-medium">You are logged in as an <span className="capitalize font-semibold">{user.role}</span>. You can manage the entire application from the dashboard panel.</p>
+            </div>
+          </div>
+          <Link 
+            to={user.role === 'admin' ? '/admin' : '/staff'} 
+            className="bg-amber-600 hover:bg-amber-700 text-white font-semibold px-5 py-2.5 rounded-xl text-sm transition-colors shadow-sm shrink-0"
+          >
+            Go to {user.role === 'admin' ? 'Admin' : 'Staff'} Panel &rarr;
+          </Link>
+        </div>
+      )}
+
       {/* Welcome */}
       <div className="bg-gradient-to-r from-primary-600 to-primary-700 text-white rounded-2xl p-8 mb-8">
         <h1 className="text-3xl font-bold mb-1">Welcome back, {user?.name}! 👋</h1>

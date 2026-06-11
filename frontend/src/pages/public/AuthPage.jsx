@@ -23,7 +23,7 @@ export default function AuthPage({ mode = 'login' }) {
     try {
       const user = await login(form.email, form.password)
       toast.success(`Welcome back, ${user.name}!`)
-      if (user.role === 'admin') navigate('/admin')
+      if (user.role === 'admin') navigate('/')
       else if (user.role === 'staff') navigate('/staff')
       else navigate('/dashboard')
     } catch (err) {

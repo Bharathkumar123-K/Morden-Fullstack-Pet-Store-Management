@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import api from '../../utils/api'
 import DashboardLayout from '../../components/layout/DashboardLayout'
 import { LoadingPage, Badge, Modal, Pagination, EmptyState } from '../../components/ui'
-import { FiSearch, FiEdit, FiTrash2, FiShield, FiAlertTriangle } from 'react-icons/fi'
+import { FiSearch, FiEdit, FiTrash2, FiShield, FiAlertTriangle, FiPlus } from 'react-icons/fi'
 import toast from 'react-hot-toast'
 
 export default function AdminUsers() {
@@ -17,6 +17,38 @@ export default function AdminUsers() {
   const [adminPromptUser, setAdminPromptUser] = useState(null)
   const [showAdminPrompt, setShowAdminPrompt] = useState(false)
   const [adminConfirmEmail, setAdminConfirmEmail] = useState('')
+  const [showCreateModal, setShowCreateModal] = useState(false)
+  const [createForm, setCreateForm] = useState({ name: '', email: '', password: '', phone: '', role: 'customer', isActive: true })
+
+  const openAdd = () => {
+    setCreateForm({ name: '', email: '', password: '', phone: '', role: 'customer', isActive: true })
+    setShowCreateModal(true)
+  }
+
+  const setCreateField = (k) => (e) => {
+    const val = e.target.type === 'checkbox' ? e.target.checked : e.target.value
+    setCreateForm(f => ({ ...f, [k]: val }))
+  }
+
+  const handleCreateSubmit = async (e) => {
+    e.preventDefault()
+    if (!createForm.name.trim() || !createForm.email.trim() || !createForm.password.trim()) {
+      toast.error('Name, email, and password are required')
+      return
+    }
+    if (createForm.password.length < 6) {
+      toast.error('Password must be at least 6 characters')
+      return
+    }
+    try {
+      await api.post('/users', createForm)
+      toast.success('User created successfully')
+      setShowCreateModal(false)
+      fetchUsers()
+    } catch (err) {
+      toast.error(err.response?.data?.message || 'Failed to create user')
+    }
+  }
 
   const fetchUsers = async () => {
     setLoading(true)
@@ -84,7 +116,12 @@ export default function AdminUsers() {
   return (
     <DashboardLayout role="admin">
       <div className="space-y-5">
-        <h1 className="text-2xl font-bold text-gray-900">Manage Users</h1>
+        <div className="flex items-center justify-between">
+          <h1 className="text-2xl font-bold text-gray-900">Manage Users</h1>
+          <button onClick={openAdd} className="btn-primary flex items-center gap-2 text-sm py-2">
+            <FiPlus /> Add User
+          </button>
+        </div>
 
         <div className="flex gap-3 flex-wrap">
           <div className="relative flex-1 min-w-48">
@@ -231,6 +268,78 @@ export default function AdminUsers() {
             </div>
           </div>
         )}
+      </Modal>
+
+      <Modal isOpen={showCreateModal} onClose={() => setShowCreateModal(false)} title="Add User">
+        <form onSubmit={handleCreateSubmit} className="space-y-4">
+          <div>
+            <label className="label">Full Name *</label>
+            <input 
+              type="text" 
+              className="input" 
+              value={createForm.name} 
+              onChange={setCreateField('name')} 
+              required 
+            />
+          </div>
+          <div>
+            <label className="label">Email Address *</label>
+            <input 
+              type="email" 
+              className="input" 
+              value={createForm.email} 
+              onChange={setCreateField('email')} 
+              required 
+            />
+          </div>
+          <div>
+            <label className="label">Password *</label>
+            <input 
+              type="password" 
+              className="input" 
+              placeholder="Min. 6 characters"
+              value={createForm.password} 
+              onChange={setCreateField('password')} 
+              required 
+            />
+          </div>
+          <div>
+            <label className="label">Phone</label>
+            <input 
+              type="tel" 
+              className="input" 
+              value={createForm.phone} 
+              onChange={setCreateField('phone')} 
+            />
+          </div>
+          <div>
+            <label className="label">Role</label>
+            <select 
+              className="input" 
+              value={createForm.role} 
+              onChange={setCreateField('role')}
+            >
+              <option value="customer">Customer</option>
+              <option value="staff">Staff</option>
+              <option value="admin">Admin</option>
+            </select>
+          </div>
+          <div>
+            <label className="label">Status</label>
+            <select 
+              className="input" 
+              value={String(createForm.isActive)} 
+              onChange={e => setCreateForm(u => ({ ...u, isActive: e.target.value === 'true' }))}
+            >
+              <option value="true">Active</option>
+              <option value="false">Inactive</option>
+            </select>
+          </div>
+          <div className="flex gap-3 pt-2">
+            <button type="button" onClick={() => setShowCreateModal(false)} className="btn-outline flex-1">Cancel</button>
+            <button type="submit" className="btn-primary flex-1">Create User</button>
+          </div>
+        </form>
       </Modal>
     </DashboardLayout>
   )

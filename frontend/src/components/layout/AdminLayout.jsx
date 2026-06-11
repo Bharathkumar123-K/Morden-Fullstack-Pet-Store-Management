@@ -10,6 +10,7 @@ export default function AdminLayout() {
             <Link to="/admin" className="block py-2 px-3 rounded hover:bg-primary-50">Dashboard</Link>
             <Link to="/admin/users" className="block py-2 px-3 rounded hover:bg-primary-50">Users</Link>
             <Link to="/admin/pets" className="block py-2 px-3 rounded hover:bg-primary-50">Pets</Link>
+            <Link to="/admin/categories" className="block py-2 px-3 rounded hover:bg-primary-50">Categories</Link>
             <Link to="/admin/products" className="block py-2 px-3 rounded hover:bg-primary-50">Products</Link>
             <Link to="/admin/orders" className="block py-2 px-3 rounded hover:bg-primary-50">Orders</Link>
             <Link to="/admin/services" className="block py-2 px-3 rounded hover:bg-primary-50">Services</Link>

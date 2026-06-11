@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 import { MdPets } from 'react-icons/md'
-import { FiHome, FiPackage, FiShoppingBag, FiCalendar, FiUsers, FiBarChart2, FiStar, FiSettings, FiLogOut, FiMenu, FiX, FiTag } from 'react-icons/fi'
+import { FiHome, FiPackage, FiShoppingBag, FiCalendar, FiUsers, FiBarChart2, FiStar, FiSettings, FiLogOut, FiMenu, FiX, FiTag, FiGrid } from 'react-icons/fi'
 
 export default function DashboardLayout({ children, role = 'admin' }) {
   const { user, logout } = useAuth()
@@ -13,6 +13,7 @@ export default function DashboardLayout({ children, role = 'admin' }) {
     { label: 'Dashboard', to: '/admin', icon: FiHome },
     { label: 'Users', to: '/admin/users', icon: FiUsers },
     { label: 'Pets', to: '/admin/pets', icon: MdPets },
+    { label: 'Categories', to: '/admin/categories', icon: FiGrid },
     { label: 'Products', to: '/admin/products', icon: FiPackage },
     { label: 'Orders', to: '/admin/orders', icon: FiShoppingBag },
     { label: 'Services', to: '/admin/services', icon: FiTag },

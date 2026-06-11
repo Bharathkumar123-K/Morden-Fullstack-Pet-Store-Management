@@ -2,7 +2,8 @@ const asyncHandler = require('express-async-handler');
 const PetCategory = require('../models/PetCategory');
 
 const getCategories = asyncHandler(async (req, res) => {
-  const categories = await PetCategory.find({ isActive: true });
+  const filter = req.query.all === 'true' ? {} : { isActive: true };
+  const categories = await PetCategory.find(filter);
   res.json({ success: true, categories });
 });
 

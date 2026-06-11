@@ -48,6 +48,7 @@ import AdminOrders from './pages/admin/Orders'
 import AdminServices from './pages/admin/AdminServices'
 import AdminAppointments from './pages/admin/Appointments'
 import AdminReviews from './pages/admin/Reviews'
+import AdminCategories from './pages/admin/Categories'
 
 const ProtectedRoute = ({ children, roles }) => {
   const { user } = useAuth()
@@ -108,6 +109,7 @@ export default function App() {
               <Route index element={<AdminDashboard />} />
               <Route path="users" element={<AdminUsers />} />
               <Route path="pets" element={<AdminPets />} />
+              <Route path="categories" element={<AdminCategories />} />
               <Route path="products" element={<AdminProducts />} />
               <Route path="orders" element={<AdminOrders />} />
               <Route path="services" element={<AdminServices />} />

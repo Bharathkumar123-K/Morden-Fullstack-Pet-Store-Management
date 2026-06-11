@@ -62,4 +62,41 @@ const getWishlist = asyncHandler(async (req, res) => {
   res.json({ success: true, wishlist: user.wishlist });
 });
 
-module.exports = { getUsers, getUserById, updateProfile, updateUser, deleteUser, toggleWishlist, getWishlist };
+// @POST /api/users - Admin
+const createUser = asyncHandler(async (req, res) => {
+  const { name, email, password, role, phone, isActive } = req.body;
+
+  if (!name || !email || !password) {
+    res.status(400);
+    throw new Error('Name, email, and password are required');
+  }
+
+  if (await User.findOne({ email })) {
+    res.status(400);
+    throw new Error('Email already registered');
+  }
+
+  const user = await User.create({
+    name,
+    email,
+    password,
+    role: role || 'customer',
+    phone,
+    isActive: isActive !== undefined ? isActive : true
+  });
+
+  res.status(201).json({
+    success: true,
+    user: {
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+      phone: user.phone,
+      isActive: user.isActive,
+      createdAt: user.createdAt
+    }
+  });
+});
+
+module.exports = { getUsers, getUserById, updateProfile, updateUser, deleteUser, toggleWishlist, getWishlist, createUser };

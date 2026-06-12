@@ -30,6 +30,14 @@ app.use(express.json());
 app.use('/uploads', express.static('uploads'));
 
 // Routes
+app.get('/api/db-info', (req, res) => {
+  const mongoose = require('mongoose');
+  res.json({
+    dbName: mongoose.connection?.db?.databaseName || mongoose.connection?.name || 'not connected',
+    host: mongoose.connection?.host,
+    env: process.env.NODE_ENV,
+  });
+});
 app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/users', require('./routes/userRoutes'));
 app.use('/api/pets', require('./routes/petRoutes'));
